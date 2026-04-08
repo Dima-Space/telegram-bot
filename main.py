@@ -1,8 +1,11 @@
+from datetime import datetime
 import time
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 
 TOKEN = "8408563049:AAEjYkMSSA-NVsnnVWAk0NxUWJOrg72IDKs"
+NIGHT_START = 23
+NIGHT_END = 8
 
 ALERT_TIME = 60
 REPEAT_ALERT = 60
@@ -22,6 +25,12 @@ async def monitor(context: ContextTypes.DEFAULT_TYPE):
     if chat_id_global is None:
         return
 
+    now_time = datetime.now().hour
+
+    # нічний режим
+    if NIGHT_START <= now_time or now_time < NIGHT_END:
+        return
+
     now = time.time()
     silence = now - last_message_time
 
@@ -29,7 +38,7 @@ async def monitor(context: ContextTypes.DEFAULT_TYPE):
         if now - last_alert_time > REPEAT_ALERT:
             await context.bot.send_message(
                 chat_id=chat_id_global,
-                text="⚠️ Немає нових замовлень більше 2 годин!"
+                text="⚠️ Немає нових замовлень!"
             )
             last_alert_time = now
 
