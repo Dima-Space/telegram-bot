@@ -3,7 +3,7 @@ import time
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 
-TOKEN = "8408563049:AAEW6H05VlJfXCirAK3oDl-labAReYXUhVg"
+TOKEN = "8408563049:AAH94gmGZZcrydMPBtZKTsLNL7VDXRCJ2IA"
 NIGHT_START = 23
 NIGHT_END = 8
 
@@ -44,6 +44,6 @@ async def monitor(context: ContextTypes.DEFAULT_TYPE):
 
 app = ApplicationBuilder().token(TOKEN).build()
 app.add_handler(MessageHandler(filters.ALL, handle_message))
-app.job_queue.run_repeating(monitor, interval=60)
+app.job_queue.run_repeating(monitor, interval=5)
 
 app.run_polling()
