@@ -7,9 +7,8 @@ TOKEN = "8408563049:AAH94gmGZZcrydMPBtZKTsLNL7VDXRCJ2IA"
 NIGHT_START = 23
 NIGHT_END = 8
 
-ALERT_TIME = 10
-REPEAT_ALERT = 10
-
+ALERT_TIME = 5
+REPEAT_ALERT = 5
 last_message_time = time.time()
 last_alert_time = 0
 chat_id_global = None
