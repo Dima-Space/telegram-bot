@@ -7,8 +7,8 @@ TOKEN = "8408563049:AAH94gmGZZcrydMPBtZKTsLNL7VDXRCJ2IA"
 NIGHT_START = 23
 NIGHT_END = 8
 
-ALERT_TIME = 3600
-REPEAT_ALERT = 3600
+ALERT_TIME = 30
+REPEAT_ALERT = 30
 last_message_time = time.time()
 last_alert_time = 0
 chat_id_global = None
@@ -43,6 +43,6 @@ async def monitor(context: ContextTypes.DEFAULT_TYPE):
 
 app = ApplicationBuilder().token(TOKEN).build()
 app.add_handler(MessageHandler(filters.ALL, handle_message))
-app.job_queue.run_repeating(monitor, interval=30)
+app.job_queue.run_repeating(monitor, interval=10)
 
 app.run_polling()
