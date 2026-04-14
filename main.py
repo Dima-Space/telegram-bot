@@ -17,7 +17,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global last_message_time, chat_id_global
     last_message_time = time.time()
     chat_id_global = update.effective_chat.id
- print("Є повідомлення:", update)
+    print("Є повідомлення:", update)
 
 async def monitor(context: ContextTypes.DEFAULT_TYPE):
     try:
