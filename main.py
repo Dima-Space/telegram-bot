@@ -17,32 +17,36 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global last_message_time, chat_id_global
     last_message_time = time.time()
     chat_id_global = update.effective_chat.id
+    print("Є повідомлення:", update.message.text)
 
 async def monitor(context: ContextTypes.DEFAULT_TYPE):
-    global last_message_time, last_alert_time, chat_id_global
+    try:
+        global last_message_time, last_alert_time, chat_id_global
 
-    if chat_id_global is None:
-        return
+        if chat_id_global is None:
+            return
 
-    now_time = datetime.now().hour
+        now_time = datetime.now().hour
 
-    # нічний режим
-    if NIGHT_START <= now_time or now_time < NIGHT_END:
-        return
+        # нічний режим
+        if NIGHT_START <= now_time or now_time < NIGHT_END:
+            return
 
-    now = time.time()
-    silence = now - last_message_time
+        now = time.time()
+        silence = now - last_message_time
 
-    if silence > ALERT_TIME:
-        if now - last_alert_time > REPEAT_ALERT:
-            await context.bot.send_message(
-                chat_id=chat_id_global,
-                text="⚠️ Немає нових замовлень!"
-            )
-            last_alert_time = now
+        if silence > ALERT_TIME:
+            if now - last_alert_time > REPEAT_ALERT:
+                await context.bot.send_message(
+                    chat_id=chat_id_global,
+                    text="⚠️ Немає нових замовлень!"
+                )
+                last_alert_time = now
 
+    except Exception as e:
+        print("Помилка:", e)
 app = ApplicationBuilder().token(TOKEN).build()
 app.add_handler(MessageHandler(filters.ALL, handle_message))
-app.job_queue.run_repeating(monitor, interval=60)
+app.job_queue.run_repeating(monitor, interval=10)
 
 app.run_polling()
