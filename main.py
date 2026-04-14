@@ -17,7 +17,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global last_message_time, chat_id_global
     last_message_time = time.time()
     chat_id_global = update.effective_chat.id
-    print("Є повідомлення:", update.message.text)
+ print("Є повідомлення:", update)
 
 async def monitor(context: ContextTypes.DEFAULT_TYPE):
     try:
@@ -46,7 +46,7 @@ async def monitor(context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         print("Помилка:", e)
 app = ApplicationBuilder().token(TOKEN).build()
-app.add_handler(MessageHandler(filters.ALL, handle_message))
+app.add_handler(MessageHandler(filters.ALL | filters.UpdateType.CHANNEL_POST, handle_message))
 app.job_queue.run_repeating(monitor, interval=10)
 
 app.run_polling()
