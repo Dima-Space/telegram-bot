@@ -15,10 +15,19 @@ chat_id_global = None
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global last_message_time, chat_id_global
-    last_message_time = time.time()
     chat_id_global = update.effective_chat.id
-    print("Є повідомлення:", update)
+    # беремо текст з будь-якого типу
+    text = None
+    if update.message and update.message.text:
+        text = update.message.text
+        
+    elif update.channel_post and update.channel_post.text:
+        text = update.channel_post.text
 
+    print("ТЕКСТ:", text)
+
+    # 🔥 ОЦЕ ГОЛОВНЕ — завжди скидаємо таймер
+    last_message_time = time.time()
 async def monitor(context: ContextTypes.DEFAULT_TYPE):
     try:
         global last_message_time, last_alert_time, chat_id_global
@@ -34,6 +43,7 @@ async def monitor(context: ContextTypes.DEFAULT_TYPE):
 
         now = time.time()
         silence = now - last_message_time
+        print("ПЕРЕВІРКА:", time.time(), "тишина:", silence)
 
         if silence > ALERT_TIME:
             if now - last_alert_time > REPEAT_ALERT:
