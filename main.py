@@ -3,7 +3,7 @@ import time
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 
-TOKEN = "8408563049:AAE_jPsUxRM96MUe5eZd6kXggDo0wnC3btg"
+TOKEN = "8408563049:AAFDAJNOhNa_uRHLqK6XOAbwo5bLgNtL4OE"
 
 NIGHT_START = 23
 NIGHT_END = 8
