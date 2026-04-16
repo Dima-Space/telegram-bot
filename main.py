@@ -68,8 +68,8 @@ async def monitor(context: ContextTypes.DEFAULT_TYPE):
 
 app = ApplicationBuilder().token(TOKEN).build()
 
-app.add_handler(MessageHandler(filters.ALL, handle_message))
 app.add_handler(MessageHandler(filters.ALL, handle_message), group=0)
+app.add_handler(MessageHandler(filters.UpdateType.CHANNEL_POST, handle_message), group=0)
 
 app.job_queue.run_repeating(monitor, interval=10)
 
