@@ -12,7 +12,7 @@ NIGHT_END = 8
 ALERT_TIME = 60 * 60
 REPEAT_ALERT = 60 * 60
 
-last_message_time = 0
+last_message_time = time.time()
 last_alert_time = 0
 
 class AllowBots(filters.MessageFilter):
