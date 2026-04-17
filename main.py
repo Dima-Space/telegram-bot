@@ -4,7 +4,7 @@ import pytz
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 
-TOKEN = "тут мій токен"
+TOKEN = "8408563049:AAFDAJNOhNa_uRHLqK6XOAbwo5bLgNtL4OE"
 TIMEZONE = pytz.timezone("Europe/Kyiv")
 NIGHT_START = 23
 NIGHT_END = 8
