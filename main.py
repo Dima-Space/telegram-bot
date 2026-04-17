@@ -4,7 +4,7 @@ from zoneinfo import ZoneInfo
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes, TypeHandler
 
-TOKEN = "8408563049:AAHPwBZ9m1u-i9aBLUUY4KjZ8MEu87JESjM"
+TOKEN = "8408563049:AAE3VzJvusuYReO-zlZjVSBwUBLBmxV63pQ"
 CHAT_ID = -1003342150417
 TIMEZONE = ZoneInfo("Europe/Kyiv")
 NIGHT_START = 23
