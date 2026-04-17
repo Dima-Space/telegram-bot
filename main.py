@@ -4,7 +4,7 @@ from zoneinfo import ZoneInfo
 import time
 from datetime import datetime
 
-TOKEN = "8408563049:AAFDAJNOhNa_uRHLqK6XOAbwo5bLgNtL4OE"
+TOKEN = "8408563049:AAE6OZeUQ0bs4fT-jTXCt0s9xavsfeX8VjI"
 CHAT_ID = -1003342150417  # хардкодимо — вже знаємо з логів
 TIMEZONE = ZoneInfo("Europe/Kyiv")
 NIGHT_START = 23
