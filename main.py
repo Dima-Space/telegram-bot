@@ -1,11 +1,11 @@
+from datetime import datetime
+import time
+from zoneinfo import ZoneInfo
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
-from zoneinfo import ZoneInfo
-import time
-from datetime import datetime
 
 TOKEN = "8408563049:AAE6OZeUQ0bs4fT-jTXCt0s9xavsfeX8VjI"
-CHAT_ID = -1003342150417  # хардкодимо — вже знаємо з логів
+CHAT_ID = -1003342150417
 TIMEZONE = ZoneInfo("Europe/Kyiv")
 NIGHT_START = 23
 NIGHT_END = 8
@@ -15,7 +15,6 @@ REPEAT_ALERT = 60 * 60
 last_message_time = 0
 last_alert_time = 0
 
-# Фільтр який пропускає ВСІ повідомлення включно з ботами
 class AllowBots(filters.MessageFilter):
     def filter(self, message):
         return True
@@ -24,7 +23,14 @@ allow_bots_filter = AllowBots()
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global last_message_time
-    print(f"Повідомлення від: {update.effective_user}, chat: {update.effective_chat.id if update.effective_chat else 'N/A'}")
+    print(f"UPDATE TYPE: {update.effective_message}")
+    print(f"CHANNEL POST: {update.channel_post}")
+    print(f"MESSAGE: {update.message}")
+    last_message_time = time.time()
+
+async def handle_channel_post(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    global last_message_time
+    print(f"CHANNEL POST ОТРИМАНО: {update.channel_post}")
     last_message_time = time.time()
 
 async def monitor(context: ContextTypes.DEFAULT_TYPE):
@@ -45,7 +51,7 @@ async def monitor(context: ContextTypes.DEFAULT_TYPE):
             if now - last_alert_time > REPEAT_ALERT:
                 await context.bot.send_message(
                     chat_id=CHAT_ID,
-                    text="⚠️ Вже більше години немає нових замовлень!"
+                    text="⚠️ Немає нових замовлень!"
                 )
                 last_alert_time = now
     except Exception as e:
@@ -54,7 +60,10 @@ async def monitor(context: ContextTypes.DEFAULT_TYPE):
 app = ApplicationBuilder().token(TOKEN).build()
 
 app.add_handler(MessageHandler(allow_bots_filter, handle_message))
+app.add_handler(MessageHandler(filters.UpdateType.CHANNEL_POST, handle_channel_post))
 
 app.job_queue.run_repeating(monitor, interval=60)
-app.run_polling(allowed_updates=Update.ALL_TYPES)
-
+app.run_polling(
+    allowed_updates=Update.ALL_TYPES,
+    drop_pending_updates=True
+)
