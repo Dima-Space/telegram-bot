@@ -9,7 +9,7 @@ from telegram.ext import (
     ApplicationBuilder, ContextTypes, TypeHandler
 )
 
-TOKEN = "8408563049:AAHIzyYz50wf5nf1gIbHkdIBrDIGAJcg3NA"
+TOKEN = "8408563049:AAHM6D3iNsze707zUmgRXRnPx1xkVQXFhnw"
 CHAT_ID = -1003342150417
 TIMEZONE = ZoneInfo("Europe/Kyiv")
 NIGHT_START = 23
@@ -59,22 +59,17 @@ async def handle_any_update(update: Update, context: ContextTypes.DEFAULT_TYPE):
         update.edited_channel_post
     )
 
-    if msg is None:
-        # Може бути callback_query або інший тип — ігноруємо
-        return
+    chat_id = None
 
-    chat_id = msg.chat.id  # .chat_id не існує, тільки .id
-
-    sender = "невідомо"
-    if msg.from_user:
-        sender = f"user:{msg.from_user.id} (@{msg.from_user.username})"
-    elif msg.sender_chat:
-        sender = f"channel/anon:{msg.sender_chat.id}"
+if msg.chat:
+    chat_id = msg.chat.id
+elif msg.sender_chat:
+    chat_id = msg.sender_chat.id
 
     text_preview = (msg.text or msg.caption or "(медіа/без тексту)")[:80]
     print(f"[UPDATE] chat={chat_id} | sender={sender} | text={text_preview}")
 
-    if chat_id == CHAT_ID:
+    if str(chat_id) == str(CHAT_ID):
         last_message_time = time.time()
         save_state({"last_message_time": last_message_time, "last_alert_time": last_alert_time})
         print(f"[UPDATE] ✅ Таймер оновлено: {datetime.now(TIMEZONE).strftime('%H:%M:%S')}")
@@ -129,8 +124,15 @@ def main():
     app = ApplicationBuilder().token(TOKEN).build()
 
     # TypeHandler з group=-1 щоб спрацьовував ПЕРШИМ перед усіма іншими
-    app.add_handler(TypeHandler(Update, handle_any_update), group=-1)
+from telegram.ext import MessageHandler, filters
 
+app.add_handler(
+    MessageHandler(
+        filters.Chat(CHAT_ID),
+        handle_any_update
+    ),
+    group=-1
+)
     # Моніторинг кожні 30 секунд
     app.job_queue.run_repeating(monitor, interval=30, first=10)
 
@@ -138,11 +140,10 @@ def main():
     print(f"[START] Завантажено стан: last_msg={datetime.fromtimestamp(last_message_time, TIMEZONE).strftime('%H:%M:%S')}")
 
     app.run_polling(
-        allowed_updates=Update.ALL_TYPES,
-        # ❌ Прибрали drop_pending_updates=True
-        # Тепер замовлення що прийшли поки бот був офлайн — обробляться
-        drop_pending_updates=False
-    )
+    allowed_updates=Update.ALL_TYPES,
+    drop_pending_updates=False,
+    timeout=30
+)
 
 if __name__ == "__main__":
     main()
