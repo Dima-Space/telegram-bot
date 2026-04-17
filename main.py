@@ -27,11 +27,10 @@ async def handle_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not msg:
         return
 
-    print("ОТРИМАНО:", msg.text if msg.text else "non-text")
+    print("ОТРИМАНО:", msg.text)
 
-    # 🔥 ГОЛОВНЕ — СКИДАЄМО ТАЙМЕР
+    # 🔥 ВАЖЛИВО — навіть якщо це бот
     last_message_time = time.time()
-
 
 # ✅ ПЕРЕВІРКА
 async def monitor(context: ContextTypes.DEFAULT_TYPE):
@@ -76,8 +75,12 @@ async def monitor(context: ContextTypes.DEFAULT_TYPE):
 app = ApplicationBuilder().token(TOKEN).build()
 
 # ✅ один універсальний handler
-app.add_handler(MessageHandler(filters.ALL, handle_all))
-
+app.add_handler(
+    MessageHandler(
+        (filters.ALL | filters.ChatType.SUPERGROUP) & (~filters.COMMAND),
+        handle_all
+    )
+)
 # ✅ перевірка кожні 30 сек (можеш 10 поставити)
 app.job_queue.run_repeating(monitor, interval=30)
 
