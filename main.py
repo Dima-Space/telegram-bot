@@ -1,11 +1,11 @@
 from datetime import datetime
 import time
-import pytz
+from zoneinfo import ZoneInfo
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 
 TOKEN = "8408563049:AAFDAJNOhNa_uRHLqK6XOAbwo5bLgNtL4OE"
-TIMEZONE = pytz.timezone("Europe/Kyiv")
+TIMEZONE = ZoneInfo("Europe/Kyiv")
 NIGHT_START = 23
 NIGHT_END = 8
 ALERT_TIME = 60 * 60
