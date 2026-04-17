@@ -56,6 +56,5 @@ app = ApplicationBuilder().token(TOKEN).build()
 app.add_handler(MessageHandler(allow_bots_filter, handle_message))
 
 app.job_queue.run_repeating(monitor, interval=60)
-app.run_polling(
-    allowed_updates=Update.ALL_TYPES,
-    drop_pending_updates=True
+app.run_polling(allowed_updates=Update.ALL_TYPES)
+
