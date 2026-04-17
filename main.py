@@ -9,7 +9,7 @@ from telegram.ext import (
     ApplicationBuilder, ContextTypes, TypeHandler
 )
 
-TOKEN = os.environ.get("8408563049:AAGsFnSrMXzIfX7mastUvLNW0ak-xVPnBVc")
+TOKEN = "8408563049:AAEx5IvAaUtzAVDW6Dq86mF-5ofTpc0zqio"
 CHAT_ID = -1003342150417
 TIMEZONE = ZoneInfo("Europe/Kyiv")
 NIGHT_START = 23
