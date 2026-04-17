@@ -2,9 +2,9 @@ from datetime import datetime
 import time
 from zoneinfo import ZoneInfo
 from telegram import Update
-from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
+from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes, TypeHandler
 
-TOKEN = "8408563049:AAHPFS9EuDL3UwJu-ccOtuudL7Vh6rmMPgE"
+TOKEN = "8408563049:AAHPwBZ9m1u-i9aBLUUY4KjZ8MEu87JESjM"
 CHAT_ID = -1003342150417
 TIMEZONE = ZoneInfo("Europe/Kyiv")
 NIGHT_START = 23
@@ -21,16 +21,17 @@ class AllowBots(filters.MessageFilter):
 
 allow_bots_filter = AllowBots()
 
+async def log_all_updates(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    print(f"=== АПДЕЙТ: {update.to_dict()} ===")
+
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global last_message_time
-    print(f"UPDATE TYPE: {update.effective_message}")
-    print(f"CHANNEL POST: {update.channel_post}")
     print(f"MESSAGE: {update.message}")
     last_message_time = time.time()
 
 async def handle_channel_post(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global last_message_time
-    print(f"CHANNEL POST ОТРИМАНО: {update.channel_post}")
+    print(f"CHANNEL POST: {update.channel_post}")
     last_message_time = time.time()
 
 async def monitor(context: ContextTypes.DEFAULT_TYPE):
@@ -38,20 +39,17 @@ async def monitor(context: ContextTypes.DEFAULT_TYPE):
     try:
         now_kyiv = datetime.now(TIMEZONE)
         now_hour = now_kyiv.hour
-
         is_night = now_hour >= NIGHT_START or now_hour < NIGHT_END
         if is_night:
             return
-
         now = time.time()
         silence = now - last_message_time
         print(f"Тиша: {int(silence)} сек")
-
         if silence > ALERT_TIME:
             if now - last_alert_time > REPEAT_ALERT:
                 await context.bot.send_message(
                     chat_id=CHAT_ID,
-                    text="⚠️ Немає нових замовлень!"
+                    text="⚠️ Вже більше години немає нових замовлень!"
                 )
                 last_alert_time = now
     except Exception as e:
@@ -59,6 +57,7 @@ async def monitor(context: ContextTypes.DEFAULT_TYPE):
 
 app = ApplicationBuilder().token(TOKEN).build()
 
+app.add_handler(TypeHandler(Update, log_all_updates), group=-1)
 app.add_handler(MessageHandler(allow_bots_filter, handle_message))
 app.add_handler(MessageHandler(filters.UpdateType.CHANNEL_POST, handle_channel_post))
 
