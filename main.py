@@ -26,7 +26,19 @@ async def log_all_updates(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global last_message_time
-    print(f"MESSAGE: {update.message}")
+
+    msg = (
+        update.message
+        or update.channel_post
+        or update.edited_message
+        or update.edited_channel_post
+    )
+
+    if not msg:
+        return
+
+    print("ЗЛОВИВ:", msg.text)
+
     last_message_time = time.time()
 
 async def handle_channel_post(update: Update, context: ContextTypes.DEFAULT_TYPE):
