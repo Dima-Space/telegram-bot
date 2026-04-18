@@ -34,38 +34,34 @@ def save_state(state):
         with open(STATE_FILE, "w") as f:
             json.dump(state, f)
     except Exception as e:
-        print(f"[STATE] Помилка: {e}")
+        print("[STATE] Помилка: " + str(e))
 
 _state = load_state()
-last_message_time: float = _state.get("last_message_time", time.time())
-last_alert_time: float = _state.get("last_alert_time", 0)
+last_message_time = _state.get("last_message_time", time.time())
+last_alert_time = _state.get("last_alert_time", 0)
 
 def is_night_time():
     now_hour = datetime.now(TIMEZONE).hour
     return now_hour >= NIGHT_START or now_hour < NIGHT_END
 
-async def monitor_loop(bot: Bot):
+async def monitor_loop(bot):
     global last_alert_time
     while True:
         await asyncio.sleep(30)
         try:
             if is_night_time():
-                print("[MONITOR] 🌙 Ніч — пропуск")
+                print("[MONITOR] Nich - propusk")
                 continue
 
             now = time.time()
             silence = now - last_message_time
             silence_min = int(silence // 60)
-            print(f"[MONITOR] ⏱ Тиша: {silence_min} хв {int(silence % 60)} сек")
+            print("[MONITOR] Tysha: " + str(silence_min) + " hv " + str(int(silence % 60)) + " sek")
 
             if silence >= ALERT_TIME:
                 time_since_last_alert = now - last_alert_time
                 if last_alert_time == 0 or time_since_last_alert >= REPEAT_ALERT:
-                    print("[MONITOR] 🚨 Відправка алерту!")
+                    print("[MONITOR] Vidpravka alertu!")
                     await bot.send_message(
                         chat_id=CHAT_ID,
-                        text=(
-text=(
-    f"*Увага!* Вже *{silence_min} хвилин* немає нових замовлень!\n"
-    f"Час: {datetime.now(TIMEZONE).strftime('%H:%M')}"
-),
+                        text="*Uvaga!* Vzhe *" + str(silence_min) + " khvylyn* nemaie novykh zamovlen
