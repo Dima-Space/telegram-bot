@@ -12,7 +12,7 @@ API_ID = int(os.environ.get("TG_API_ID"))
 API_HASH = os.environ.get("TG_API_HASH")
 SESSION_STRING = os.environ.get("SESSION_STRING")
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
-TG_PHONE = os.environ.get("TG_PHONE")
+TG_PHONE = os.environ.get("+380682836508")
 
 CHAT_ID = -1003342150417
 TIMEZONE = ZoneInfo("Europe/Kyiv")
