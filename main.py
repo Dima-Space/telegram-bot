@@ -8,10 +8,10 @@ from telethon import TelegramClient, events
 from telethon.sessions import StringSession
 from telegram import Bot
 
-API_ID = int(os.environ.get("31266157"))
-API_HASH = os.environ.get("e290ff8cf86b7f1a8d14997c8fe069c2")
-SESSION_STRING = os.environ.get("1ApWapzMBuwL1jzj-TK-8K-Z7STPaIJ9Sr9vPBmA0r-pkKVBs25NIEevt9-jRcKqFTeVRjs_qhezN-UdZpXP182fSUJR9uKVtESVd43CTN468vLn7t5Z5yqimDAVwvADVTYgGjVhGZ8NMi5BHPE8boYJV-r37mse2DaBdtHD2C8v5Q6wkztgQBqohyUhd68zNQReWqaqY29k0Y08aO453ZleW7FiXMjxkH_UXz2qb6tMPTMgg2hr8TjlQiMM7o3oHiHGujHtgaY7zmXnOw_ukdGKFrIkOdoepzbt93sL-0CrveylxbNfVhs3WJ1A-XjwXou6ueGg8w6j6AxkAu4VfGDhisuYEPOg=")
-BOT_TOKEN = os.environ.get("8408563049:AAHy1xTtm9TDkCcMcypC-MzM2CFDZ-6kc7Y")
+API_ID = int(os.environ.get("TG_API_ID"))
+API_HASH = os.environ.get("TG_API_HASH")
+SESSION_STRING = os.environ.get("SESSION_STRING")
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 
 CHAT_ID = -1003342150417
 TIMEZONE = ZoneInfo("Europe/Kyiv")
