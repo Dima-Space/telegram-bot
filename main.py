@@ -89,7 +89,7 @@ async def main():
     bot = Bot(token=BOT_TOKEN)
     client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 
-    @client.on(events.NewMessage(chats=CHAT_ID))
+    @client.on(events.NewMessage())
     async def handler(event):
         global last_message_time
         sender = await event.get_sender()
