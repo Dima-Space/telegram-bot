@@ -4,7 +4,7 @@ import json
 import os
 import asyncio
 from zoneinfo import ZoneInfo
-from telethon import TelegramClient, events
+from telethon import TelegramClient, events, functions
 from telethon.sessions import StringSession
 from telegram import Bot
 
@@ -65,48 +65,4 @@ async def monitor_loop(bot: Bot):
                     await bot.send_message(
                         chat_id=CHAT_ID,
                         text=(
-                            f"⚠️ *Увага!* Вже *{silence_min} хвилин* немає нових замовлень!\n"
-                            f"Час: {datetime.now(TIMEZONE).strftime('%H:%M')}"
-                        ),
-                        parse_mode="Markdown"
-                    )
-                    last_alert_time = now
-                    save_state({
-                        "last_message_time": last_message_time,
-                        "last_alert_time": last_alert_time
-                    })
-                else:
-                    print(f"[MONITOR] Алерт надсилався {int(time_since_last_alert // 60)} хв тому")
-            else:
-                print(f"[MONITOR] ✅ До алерту ще {int((ALERT_TIME - silence) // 60)} хв")
-
-        except Exception as e:
-            print(f"[MONITOR] ❌ ПОМИЛКА: {e}")
-
-async def main():
-    global last_message_time
-
-    bot = Bot(token=BOT_TOKEN)
-    client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
-
-    @client.on(events.NewMessage())
-    async def handler(event):
-        global last_message_time
-        sender = await event.get_sender()
-        name = getattr(sender, 'username', None) or getattr(sender, 'title', '?')
-        print(f"[UPDATE] ✅ Повідомлення від: {name} | {(event.message.text or '(медіа)')[:80]}")
-        last_message_time = time.time()
-        save_state({
-            "last_message_time": last_message_time,
-            "last_alert_time": last_alert_time
-        })
-
-    await client.start()
-    print(f"[START] 👤 Userbot запущено, слухаємо чат {CHAT_ID}")
-    print(f"[START] last_msg={datetime.fromtimestamp(last_message_time, TIMEZONE).strftime('%H:%M:%S')}")
-
-    asyncio.create_task(monitor_loop(bot))
-    await client.run_until_disconnected()
-
-if __name__ == "__main__":
-    asyncio.run(main())
+                            f"⚠️ *Увага!* Вже *
