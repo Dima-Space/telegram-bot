@@ -6,7 +6,7 @@ import asyncio
 from zoneinfo import ZoneInfo
 from telethon import TelegramClient, events, functions
 from telethon.sessions import StringSession
-from telegram import Bot
+from telegram import Bot 
 
 API_ID = int(os.environ.get("TG_API_ID"))
 API_HASH = os.environ.get("TG_API_HASH")
