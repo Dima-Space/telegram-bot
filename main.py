@@ -1,120 +1,112 @@
 from datetime import datetime
 import time
 import json
+import os
+import asyncio
 from zoneinfo import ZoneInfo
-from telegram import Update
-from telegram.ext import (
-    ApplicationBuilder,
-    ContextTypes,
-    MessageHandler,
-    filters
-)
+from telethon import TelegramClient, events
+from telethon.sessions import StringSession
+from telegram import Bot
 
-TOKEN = "8408563049:AAHadn22KyHJNB1oCoc1X0VzqoEWSiAMBMs"
+API_ID = int(os.environ.get("31266157"))
+API_HASH = os.environ.get("e290ff8cf86b7f1a8d14997c8fe069c2")
+SESSION_STRING = os.environ.get("1ApWapzMBuwL1jzj-TK-8K-Z7STPaIJ9Sr9vPBmA0r-pkKVBs25NIEevt9-jRcKqFTeVRjs_qhezN-UdZpXP182fSUJR9uKVtESVd43CTN468vLn7t5Z5yqimDAVwvADVTYgGjVhGZ8NMi5BHPE8boYJV-r37mse2DaBdtHD2C8v5Q6wkztgQBqohyUhd68zNQReWqaqY29k0Y08aO453ZleW7FiXMjxkH_UXz2qb6tMPTMgg2hr8TjlQiMM7o3oHiHGujHtgaY7zmXnOw_ukdGKFrIkOdoepzbt93sL-0CrveylxbNfVhs3WJ1A-XjwXou6ueGg8w6j6AxkAu4VfGDhisuYEPOg=")
+BOT_TOKEN = os.environ.get("8408563049:AAHy1xTtm9TDkCcMcypC-MzM2CFDZ-6kc7Y")
+
 CHAT_ID = -1003342150417
-
 TIMEZONE = ZoneInfo("Europe/Kyiv")
 NIGHT_START = 23
 NIGHT_END = 8
-
 ALERT_TIME = 60 * 60
 REPEAT_ALERT = 60 * 60
 
-STATE_FILE = "/tmp/state.json"
+STATE_FILE = "/tmp/bot_state.json"
 
-
-# ---------- STATE ----------
 def load_state():
     try:
         with open(STATE_FILE, "r") as f:
             return json.load(f)
-    except:
+    except Exception:
         return {}
 
+def save_state(state):
+    try:
+        with open(STATE_FILE, "w") as f:
+            json.dump(state, f)
+    except Exception as e:
+        print(f"[STATE] Помилка: {e}")
 
-def save_state():
-    with open(STATE_FILE, "w") as f:
-        json.dump({
-            "last_message_time": last_message_time,
-            "last_alert_time": last_alert_time
-        }, f)
+_state = load_state()
+last_message_time: float = _state.get("last_message_time", time.time())
+last_alert_time: float = _state.get("last_alert_time", 0)
 
+def is_night_time():
+    now_hour = datetime.now(TIMEZONE).hour
+    return now_hour >= NIGHT_START or now_hour < NIGHT_END
 
-state = load_state()
+async def monitor_loop(bot: Bot):
+    global last_alert_time
+    while True:
+        await asyncio.sleep(30)
+        try:
+            if is_night_time():
+                print("[MONITOR] 🌙 Ніч — пропуск")
+                continue
 
-last_message_time = state.get("last_message_time", time.time())
-last_alert_time = state.get("last_alert_time", 0)
+            now = time.time()
+            silence = now - last_message_time
+            silence_min = int(silence // 60)
+            print(f"[MONITOR] ⏱ Тиша: {silence_min} хв {int(silence % 60)} сек")
 
+            if silence >= ALERT_TIME:
+                time_since_last_alert = now - last_alert_time
+                if last_alert_time == 0 or time_since_last_alert >= REPEAT_ALERT:
+                    print("[MONITOR] 🚨 Відправка алерту!")
+                    await bot.send_message(
+                        chat_id=CHAT_ID,
+                        text=(
+                            f"⚠️ *Увага!* Вже *{silence_min} хвилин* немає нових замовлень!\n"
+                            f"Час: {datetime.now(TIMEZONE).strftime('%H:%M')}"
+                        ),
+                        parse_mode="Markdown"
+                    )
+                    last_alert_time = now
+                    save_state({
+                        "last_message_time": last_message_time,
+                        "last_alert_time": last_alert_time
+                    })
+                else:
+                    print(f"[MONITOR] Алерт надсилався {int(time_since_last_alert // 60)} хв тому")
+            else:
+                print(f"[MONITOR] ✅ До алерту ще {int((ALERT_TIME - silence) // 60)} хв")
 
-# ---------- HANDLER ----------
-async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        except Exception as e:
+            print(f"[MONITOR] ❌ ПОМИЛКА: {e}")
+
+async def main():
     global last_message_time
 
-    msg = update.message
+    bot = Bot(token=BOT_TOKEN)
+    client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 
-    if not msg:
-        return
-
-    print(f"[UPDATE] {msg.chat.id} | {msg.text}")
-
-    if msg.chat.id == CHAT_ID:
+    @client.on(events.NewMessage(chats=CHAT_ID))
+    async def handler(event):
+        global last_message_time
+        sender = await event.get_sender()
+        name = getattr(sender, 'username', None) or getattr(sender, 'title', '?')
+        print(f"[UPDATE] ✅ Повідомлення від: {name} | {(event.message.text or '(медіа)')[:80]}")
         last_message_time = time.time()
-        save_state()
-        print("[OK] Таймер скинуто")
+        save_state({
+            "last_message_time": last_message_time,
+            "last_alert_time": last_alert_time
+        })
 
+    await client.start()
+    print(f"[START] 👤 Userbot запущено, слухаємо чат {CHAT_ID}")
+    print(f"[START] last_msg={datetime.fromtimestamp(last_message_time, TIMEZONE).strftime('%H:%M:%S')}")
 
-# ---------- MONITOR ----------
-def is_night():
-    h = datetime.now(TIMEZONE).hour
-    return h >= NIGHT_START or h < NIGHT_END
-
-
-async def monitor(context: ContextTypes.DEFAULT_TYPE):
-    global last_alert_time
-
-    if is_night():
-        print("[MONITOR] ніч")
-        return
-
-    now = time.time()
-    silence = now - last_message_time
-
-    print(f"[MONITOR] тиша {int(silence)} сек")
-
-    if silence >= ALERT_TIME:
-        if now - last_alert_time >= REPEAT_ALERT:
-            print("[ALERT] відправка")
-
-            await context.bot.send_message(
-                chat_id=CHAT_ID,
-                text="⚠️ Немає нових замовлень!"
-            )
-
-            last_alert_time = now
-            save_state()
-
-
-# ---------- MAIN ----------
-def main():
-    app = ApplicationBuilder().token(TOKEN).build()
-
-    app.add_handler(
-        MessageHandler(
-            filters.Chat(CHAT_ID),
-            handle_message
-        )
-    )
-
-    app.job_queue.run_repeating(
-        monitor,
-        interval=30,
-        first=10
-    )
-
-    print("[START] бот запущено")
-
-    app.run_polling()
-
+    asyncio.create_task(monitor_loop(bot))
+    await client.run_until_disconnected()
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
