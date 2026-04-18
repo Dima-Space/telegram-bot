@@ -65,4 +65,7 @@ async def monitor_loop(bot: Bot):
                     await bot.send_message(
                         chat_id=CHAT_ID,
                         text=(
-                            f"⚠️ *Увага!* Вже *
+text=(
+    f"*Увага!* Вже *{silence_min} хвилин* немає нових замовлень!\n"
+    f"Час: {datetime.now(TIMEZONE).strftime('%H:%M')}"
+),
