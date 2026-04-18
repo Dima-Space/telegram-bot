@@ -112,13 +112,10 @@ def main():
 
     app.job_queue.run_repeating(monitor, interval=30, first=10)
 
-    print("БОТ ЗАПУЩЕНО")
-
     app.run_polling(
         allowed_updates=Update.ALL_TYPES,
         drop_pending_updates=False
     )
-
 
 if __name__ == "__main__":
     main()
