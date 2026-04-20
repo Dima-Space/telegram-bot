@@ -80,24 +80,22 @@ async def main():
     bot = Bot(token=BOT_TOKEN)
     client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
     @client.on(events.NewMessage())
-async def handler(event):
-    global last_message_time, alert_count
-    if event.chat_id != CHAT_ID:
-        return
-    msg = event.message
-    # ігноруємо повідомлення від нашого бота
-    if msg.sender_id == 8408563049:
-        return
-    text_preview = (msg.text or "(media)")[:80]
-    print("[UPDATE] sender_id=" + str(msg.sender_id) + " | " + text_preview)
-    last_message_time = time.time()
-    alert_count = 0
-    save_state({
-        "last_message_time": last_message_time,
-        "last_alert_time": last_alert_time,
-        "alert_count": alert_count
-    })
-    
+    async def handler(event):
+        global last_message_time, alert_count
+        if event.chat_id != CHAT_ID:
+            return
+        msg = event.message
+        if msg.sender_id == 8408563049:
+            return
+        text_preview = (msg.text or "(media)")[:80]
+        print("[UPDATE] sender_id=" + str(msg.sender_id) + " | " + text_preview)
+        last_message_time = time.time()
+        alert_count = 0
+        save_state({
+            "last_message_time": last_message_time,
+            "last_alert_time": last_alert_time,
+            "alert_count": alert_count
+        })
     await client.start(phone=TG_PHONE)
     try:
         await client(functions.channels.GetFullChannelRequest(CHAT_ID))
