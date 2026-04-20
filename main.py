@@ -16,8 +16,8 @@ CHAT_ID = -1003342150417
 TIMEZONE = ZoneInfo("Europe/Kyiv")
 NIGHT_START = 23
 NIGHT_END = 8
-ALERT_TIME = 60 * 10
-REPEAT_ALERT = 60 * 10
+ALERT_TIME = 60 * 2
+REPEAT_ALERT = 60 * 2
 STATE_FILE = "/tmp/bot_state.json"
 def load_state():
     try:
