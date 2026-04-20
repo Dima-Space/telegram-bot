@@ -17,7 +17,7 @@ TG_PHONE = os.environ.get("TG_PHONE")
 # 🔥 СПИСОК ГРУП
 CHAT_IDS = [
     -1003342150417,
-    -100XXXXXXXXXX  # друга група
+      # друга група
 ]
 
 TIMEZONE = ZoneInfo("Europe/Kyiv")
