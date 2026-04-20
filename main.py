@@ -65,7 +65,7 @@ async def monitor_loop(bot):
                 if last_alert_time == 0 or time_since_last_alert >= REPEAT_ALERT:
                     print("[MONITOR] Vidpravka alertu!")
                     now_str = datetime.now(TIMEZONE).strftime("%H:%M")
-                    msg_text = "Увага! Вже " + str(silence_min) + " хвилин немає нових замовлень! Час: " + now_str
+                    msg_text = "⚠️Увага! Вже " + str(silence_min) + " хвилин немає нових замовлень! Час: " + now_str
                     await bot.send_message(
                         chat_id=CHAT_ID,
                         text=msg_text
