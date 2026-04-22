@@ -26,145 +26,145 @@ CHATS = {
         "name": "Україна скло",
         "alert_time": 60 * 60,
         "repeat_alert": 60 * 60,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -1001234567890: {
         "name": "NEW Україна",
         "alert_time": 60 * 60,
         "repeat_alert": 60 * 60,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -1002261696626: {
         "name": "Польща",
         "alert_time": 60 * 60 * 2,
         "repeat_alert": 60 * 60 * 2,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
      -1002270006683: {
         "name": "Чехія",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
      -1002310052085: {
         "name": "Словаччина",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
      -4936972654: {
         "name": "Словенія",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -5179067596: {
         "name": "Болгарія",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
      -5249103915: {
         "name": "Португалія",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
      -5191839700: {
         "name": "Литва",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -4818710901: {
         "name": "Румунія",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -5023458941: {
         "name": "Латвія",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -5286153459: {
         "name": "Франція",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -5176746227: {
         "name": "Іспанія",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -1003983601225: {
         "name": "Австрія",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -4834145912: {
         "name": "Німеччина",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -5245803934: {
         "name": "Данія",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
      -5001379307: {
         "name": "Італія",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
      -4828212674: {
         "name": "Угорщина",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
      -1002342335330: {
         "name": "Пікасо",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -1002273397645: {
         "name": "Хорватія",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -5121283522: {
         "name": "Бельгія",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -5109854315: {
         "name": "Нідерланди",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -1002295396071: {
         "name": "М'які вікна",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -5105958051: {
         "name": "Ірландія",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     # додавай скільки треба...
 }
@@ -266,9 +266,9 @@ async def monitor_loop(bot):
                         mention = "\n" + config["mentions"] if state["alert_count"] >= 2 else ""
 
                         msg_text = (
-                            "⚠️Увага! Вже "
+                            "⚠️ Увага❗️ Вже "
                             + str(silence_min)
-                            + " хвилин немає нових замовлень! Час: "
+                            + " хвилин немає нових замовлень❗️ Час: "
                             + now_str
                             + mention
                         )
