@@ -78,8 +78,8 @@ CHATS = {
     },
     -4818710901: {
         "name": "Румунія",
-        "alert_time": 60 * 60 * 3,
-        "repeat_alert": 60 * 60 * 3,
+        "alert_time": 60 * 60 * 2,
+        "repeat_alert": 60 * 60 * 2,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -5023458941: {
@@ -96,8 +96,8 @@ CHATS = {
     },
     -5176746227: {
         "name": "Іспанія",
-        "alert_time": 60 * 60 * 5,
-        "repeat_alert": 60 * 60 * 5,
+        "alert_time": 60 * 60 * 3,
+        "repeat_alert": 60 * 60 * 3,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -1003983601225: {
@@ -120,8 +120,8 @@ CHATS = {
     },
      -5001379307: {
         "name": "Італія",
-        "alert_time": 60 * 60 * 5,
-        "repeat_alert": 60 * 60 * 5,
+        "alert_time": 60 * 60 * 3,
+        "repeat_alert": 60 * 60 * 3,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
      -4828212674: {
@@ -132,8 +132,8 @@ CHATS = {
     },
      -1002342335330: {
         "name": "Пікасо",
-        "alert_time": 60 * 60 * 5,
-        "repeat_alert": 60 * 60 * 5,
+        "alert_time": 60 * 60 * 4,
+        "repeat_alert": 60 * 60 * 4,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -1002273397645: {
@@ -156,8 +156,8 @@ CHATS = {
     },
     -1002295396071: {
         "name": "М'які вікна",
-        "alert_time": 60 * 60 * 5,
-        "repeat_alert": 60 * 60 * 5,
+        "alert_time": 60 * 60 * 1,
+        "repeat_alert": 60 * 60 * 1,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -5105958051: {
