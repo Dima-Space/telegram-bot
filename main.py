@@ -336,7 +336,7 @@ async def main():
 
     for chat_id, config in CHATS.items():
         try:
-            await client(functions.channels.GetFullChannelRequest(chat_id))
+            await client.get_entity(chat_id)
             print("[START] Pidpyska na " + config["name"] + " uspishna")
         except Exception as e:
             print("[START] Pidpyska na " + config["name"] + ": " + str(e))
