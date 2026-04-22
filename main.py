@@ -82,6 +82,90 @@ CHATS = {
         "repeat_alert": 60 * 60 * 3,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
     },
+    -5023458941: {
+        "name": "Латвія",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    -5286153459: {
+        "name": "Франція",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    -5176746227: {
+        "name": "Іспанія",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    -1003983601225: {
+        "name": "Австрія",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    -4834145912: {
+        "name": "Німеччина",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    -5245803934: {
+        "name": "Данія",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+     -5001379307: {
+        "name": "Італія",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+     -4828212674: {
+        "name": "Угорщина",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+     -1002342335330: {
+        "name": "Пікасо",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    -1002273397645: {
+        "name": "Хорватія",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    -5121283522: {
+        "name": "Бельгія",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    -5109854315: {
+        "name": "Нідерланди",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    -1002295396071: {
+        "name": "М'які вікна",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    -5105958051: {
+        "name": "Ірландія",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
     # додавай скільки треба...
 }
 # ==============================
