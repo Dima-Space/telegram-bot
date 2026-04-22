@@ -6,7 +6,7 @@ import asyncio
 from zoneinfo import ZoneInfo
 from telethon import TelegramClient, events, functions
 from telethon.sessions import StringSession
-from telegram import Bot 
+from telegram import Bot
 
 API_ID = int(os.environ.get("TG_API_ID"))
 API_HASH = os.environ.get("TG_API_HASH")
@@ -14,13 +14,26 @@ SESSION_STRING = os.environ.get("SESSION_STRING")
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 TG_PHONE = os.environ.get("TG_PHONE", "+380682836508")
 
-CHAT_ID = -1003342150417
+# ===== НАЛАШТУВАННЯ ДВА ЧАТИ =====
+CHATS = {
+    -1003342150417: {
+        "name": "Група 1",
+        "alert_time": 60 * 60,       # через скільки секунд надсилати алерт
+        "repeat_alert": 60 * 60,     # через скільки повторювати алерт
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    -1002411854408: {                 # <-- ЗАМІНИ на ID другої групи
+        "name": "Група 2",
+        "alert_time": 60 * 60,
+        "repeat_alert": 60 * 60,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",  # <-- можна змінити
+    },
+}
+# ==================================
 
 TIMEZONE = ZoneInfo("Europe/Kyiv")
 NIGHT_START = 23
 NIGHT_END = 8
-ALERT_TIME = 60 * 60
-REPEAT_ALERT = 60 * 60
 
 STATE_FILE = "/tmp/bot_state.json"
 
@@ -41,10 +54,24 @@ def save_state(state):
         print("[STATE] Pomylka: " + str(e))
 
 
+# Ініціалізація стану для кожного чату
 _state = load_state()
-last_message_time = _state.get("last_message_time", time.time())
-last_alert_time = _state.get("last_alert_time", 0)
-alert_count = _state.get("alert_count", 0)
+chat_states = {}
+
+for chat_id in CHATS:
+    key = str(chat_id)
+    chat_states[chat_id] = {
+        "last_message_time": _state.get(key, {}).get("last_message_time", time.time()),
+        "last_alert_time": _state.get(key, {}).get("last_alert_time", 0),
+        "alert_count": _state.get(key, {}).get("alert_count", 0),
+    }
+
+
+def save_all_states():
+    data = {}
+    for chat_id, state in chat_states.items():
+        data[str(chat_id)] = state
+    save_state(data)
 
 
 def is_night_time():
@@ -53,8 +80,6 @@ def is_night_time():
 
 
 async def monitor_loop(bot):
-    global last_alert_time, alert_count
-
     while True:
         await asyncio.sleep(30)
 
@@ -64,94 +89,97 @@ async def monitor_loop(bot):
                 continue
 
             now = time.time()
-            silence = now - last_message_time
 
-            silence_min = int(silence // 60)
-            silence_sec = int(silence % 60)
+            for chat_id, config in CHATS.items():
+                state = chat_states[chat_id]
+                silence = now - state["last_message_time"]
 
-            print("[MONITOR] Tysha: " + str(silence_min) + " hv " + str(silence_sec) + " sek")
+                silence_min = int(silence // 60)
+                silence_sec = int(silence % 60)
 
-            if silence >= ALERT_TIME:
-                time_since_last_alert = now - last_alert_time
+                print(
+                    "[MONITOR][" + config["name"] + "] Tysha: "
+                    + str(silence_min) + " hv " + str(silence_sec) + " sek"
+                )
 
-                if last_alert_time == 0 or time_since_last_alert >= REPEAT_ALERT:
-                    print("[MONITOR] Vidpravka alertu!")
+                if silence >= config["alert_time"]:
+                    time_since_last_alert = now - state["last_alert_time"]
 
-                    now_str = datetime.now(TIMEZONE).strftime("%H:%M")
-                    alert_count += 1
+                    if state["last_alert_time"] == 0 or time_since_last_alert >= config["repeat_alert"]:
+                        print("[MONITOR][" + config["name"] + "] Vidpravka alertu!")
 
-                    mention = "\n@stasnislaavv @rumyantsev58 @cheeenazes" if alert_count >= 2 else ""
+                        now_str = datetime.now(TIMEZONE).strftime("%H:%M")
+                        state["alert_count"] += 1
 
-                    msg_text = (
-                        "⚠️Увага! Вже "
-                        + str(silence_min)
-                        + " хвилин немає нових замовлень! Час: "
-                        + now_str
-                        + mention
-                    )
+                        mention = "\n" + config["mentions"] if state["alert_count"] >= 2 else ""
 
-                    await bot.send_message(
-                        chat_id=CHAT_ID,
-                        text=msg_text
-                    )
+                        msg_text = (
+                            "⚠️Увага! Вже "
+                            + str(silence_min)
+                            + " хвилин немає нових замовлень! Час: "
+                            + now_str
+                            + mention
+                        )
 
-                    last_alert_time = now
+                        await bot.send_message(chat_id=chat_id, text=msg_text)
 
-                    save_state({
-                        "last_message_time": last_message_time,
-                        "last_alert_time": last_alert_time,
-                        "alert_count": alert_count
-                    })
+                        state["last_alert_time"] = now
+                        save_all_states()
 
+                    else:
+                        print(
+                            "[MONITOR][" + config["name"] + "] Alert vzhe nadsilavsia "
+                            + str(int(time_since_last_alert // 60)) + " hv tomu"
+                        )
                 else:
-                    print("[MONITOR] Alert vzhe nadsilavsia " + str(int(time_since_last_alert // 60)) + " hv tomu")
-
-            else:
-                print("[MONITOR] Do alertu shche " + str(int((ALERT_TIME - silence) // 60)) + " hv")
+                    print(
+                        "[MONITOR][" + config["name"] + "] Do alertu shche "
+                        + str(int((config["alert_time"] - silence) // 60)) + " hv"
+                    )
 
         except Exception as e:
             print("[MONITOR] POMYLKA: " + str(e))
 
 
 async def main():
-    global last_message_time
-
     bot = Bot(token=BOT_TOKEN)
     client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 
     @client.on(events.NewMessage())
     async def handler(event):
-        global last_message_time, alert_count
+        chat_id = event.chat_id
 
-        if event.chat_id != CHAT_ID:
+        # Ігноруємо повідомлення не з наших груп
+        if chat_id not in CHATS:
             return
 
         msg = event.message
 
+        # Ігноруємо повідомлення від самого бота
         if msg.sender_id == 8408563049:
             return
 
         text_preview = (msg.text or "(media)")[:80]
-        print("[UPDATE] sender_id=" + str(msg.sender_id) + " | " + text_preview)
+        config = CHATS[chat_id]
+        print("[UPDATE][" + config["name"] + "] sender_id=" + str(msg.sender_id) + " | " + text_preview)
 
-        last_message_time = time.time()
-        alert_count = 0
+        # Оновлюємо стан ТІЛЬКИ для тієї групи, де прийшло повідомлення
+        chat_states[chat_id]["last_message_time"] = time.time()
+        chat_states[chat_id]["alert_count"] = 0
 
-        save_state({
-            "last_message_time": last_message_time,
-            "last_alert_time": last_alert_time,
-            "alert_count": alert_count
-        })
+        save_all_states()
 
     await client.start(phone=TG_PHONE)
 
-    try:
-        await client(functions.channels.GetFullChannelRequest(CHAT_ID))
-        print("[START] Pidpyska na kanal uspishna")
-    except Exception as e:
-        print("[START] Pidpyska: " + str(e))
+    # Перевірка підписки на обидва чати
+    for chat_id, config in CHATS.items():
+        try:
+            await client(functions.channels.GetFullChannelRequest(chat_id))
+            print("[START] Pidpyska na " + config["name"] + " uspishna")
+        except Exception as e:
+            print("[START] Pidpyska na " + config["name"] + ": " + str(e))
 
-    print("[START] Userbot zapushcheno, slukhaemo chat " + str(CHAT_ID))
+    print("[START] Userbot zapushcheno, slukhaemo " + str(len(CHATS)) + " chaty")
 
     asyncio.create_task(monitor_loop(bot))
 
