@@ -34,6 +34,12 @@ CHATS = {
         "repeat_alert": 60 * 60,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
     },
+    -1002261696626: {
+        "name": "Польща",
+        "alert_time": 60 * 60 * 2,
+        "repeat_alert": 60 * 60 * 2,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
     # додавай скільки треба...
 }
 # ==============================
