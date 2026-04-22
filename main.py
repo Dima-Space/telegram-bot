@@ -1,8 +1,8 @@
 from datetime import datetime
 import time
-import json
 import os
 import asyncio
+import sqlite3
 from zoneinfo import ZoneInfo
 from telethon import TelegramClient, events, functions
 from telethon.sessions import StringSession
@@ -14,64 +14,84 @@ SESSION_STRING = os.environ.get("SESSION_STRING")
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 TG_PHONE = os.environ.get("TG_PHONE", "+380682836508")
 
-# ===== НАЛАШТУВАННЯ ДВА ЧАТИ =====
-CHATS = {
-    -1003342150417: {
-        "name": "Україна скло",
-        "alert_time": 60 * 60,       # через скільки секунд надсилати алерт
-        "repeat_alert": 60 * 60,     # через скільки повторювати алерт
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
-    },
-    -1002411854408: {                 # <-- ЗАМІНИ на ID другої групи
-        "name": "NEW Україна",
-        "alert_time": 60 * 60,
-        "repeat_alert": 60 * 60,
-        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",  # <-- можна змінити
-    },
-}
-# ==================================
-
 TIMEZONE = ZoneInfo("Europe/Kyiv")
 NIGHT_START = 23
 NIGHT_END = 8
 
-STATE_FILE = "/tmp/bot_state.json"
+DB_FILE = "/tmp/bot_state.db"
+
+# ===== НАЛАШТУВАННЯ ГРУП =====
+CHATS = {
+    -1003342150417: {
+        "name": "Україна скло",
+        "alert_time": 60 * 60,
+        "repeat_alert": 60 * 60,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    -1001234567890: {
+        "name": "NEW Україна",
+        "alert_time": 60 * 60,
+        "repeat_alert": 60 * 60,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    # додавай скільки треба...
+}
+# ==============================
 
 
-def load_state():
-    try:
-        with open(STATE_FILE, "r") as f:
-            return json.load(f)
-    except Exception:
-        return {}
+# ===== БАЗА ДАНИХ =====
+def init_db():
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS chat_state (
+            chat_id INTEGER PRIMARY KEY,
+            last_message_time REAL,
+            last_alert_time REAL,
+            alert_count INTEGER
+        )
+    """)
+    conn.commit()
+    conn.close()
 
 
-def save_state(state):
-    try:
-        with open(STATE_FILE, "w") as f:
-            json.dump(state, f)
-    except Exception as e:
-        print("[STATE] Pomylka: " + str(e))
+def get_state(chat_id):
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+    c.execute("SELECT last_message_time, last_alert_time, alert_count FROM chat_state WHERE chat_id = ?", (chat_id,))
+    row = c.fetchone()
+    conn.close()
+
+    if row:
+        return {
+            "last_message_time": row[0],
+            "last_alert_time": row[1],
+            "alert_count": row[2],
+        }
+    else:
+        default = {
+            "last_message_time": time.time(),
+            "last_alert_time": 0,
+            "alert_count": 0,
+        }
+        save_state(chat_id, default)
+        return default
 
 
-# Ініціалізація стану для кожного чату
-_state = load_state()
-chat_states = {}
-
-for chat_id in CHATS:
-    key = str(chat_id)
-    chat_states[chat_id] = {
-        "last_message_time": _state.get(key, {}).get("last_message_time", time.time()),
-        "last_alert_time": _state.get(key, {}).get("last_alert_time", 0),
-        "alert_count": _state.get(key, {}).get("alert_count", 0),
-    }
-
-
-def save_all_states():
-    data = {}
-    for chat_id, state in chat_states.items():
-        data[str(chat_id)] = state
-    save_state(data)
+def save_state(chat_id, state):
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+    c.execute("""
+        INSERT INTO chat_state (chat_id, last_message_time, last_alert_time, alert_count)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(chat_id) DO UPDATE SET
+            last_message_time = excluded.last_message_time,
+            last_alert_time = excluded.last_alert_time,
+            alert_count = excluded.alert_count
+    """, (chat_id, state["last_message_time"], state["last_alert_time"], state["alert_count"]))
+    conn.commit()
+    conn.close()
+# ======================
 
 
 def is_night_time():
@@ -91,7 +111,7 @@ async def monitor_loop(bot):
             now = time.time()
 
             for chat_id, config in CHATS.items():
-                state = chat_states[chat_id]
+                state = get_state(chat_id)
                 silence = now - state["last_message_time"]
 
                 silence_min = int(silence // 60)
@@ -124,7 +144,7 @@ async def monitor_loop(bot):
                         await bot.send_message(chat_id=chat_id, text=msg_text)
 
                         state["last_alert_time"] = now
-                        save_all_states()
+                        save_state(chat_id, state)
 
                     else:
                         print(
@@ -142,6 +162,8 @@ async def monitor_loop(bot):
 
 
 async def main():
+    init_db()
+
     bot = Bot(token=BOT_TOKEN)
     client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 
@@ -149,13 +171,11 @@ async def main():
     async def handler(event):
         chat_id = event.chat_id
 
-        # Ігноруємо повідомлення не з наших груп
         if chat_id not in CHATS:
             return
 
         msg = event.message
 
-        # Ігноруємо повідомлення від самого бота
         if msg.sender_id == 8408563049:
             return
 
@@ -163,15 +183,13 @@ async def main():
         config = CHATS[chat_id]
         print("[UPDATE][" + config["name"] + "] sender_id=" + str(msg.sender_id) + " | " + text_preview)
 
-        # Оновлюємо стан ТІЛЬКИ для тієї групи, де прийшло повідомлення
-        chat_states[chat_id]["last_message_time"] = time.time()
-        chat_states[chat_id]["alert_count"] = 0
-
-        save_all_states()
+        state = get_state(chat_id)
+        state["last_message_time"] = time.time()
+        state["alert_count"] = 0
+        save_state(chat_id, state)
 
     await client.start(phone=TG_PHONE)
 
-    # Перевірка підписки на обидва чати
     for chat_id, config in CHATS.items():
         try:
             await client(functions.channels.GetFullChannelRequest(chat_id))
