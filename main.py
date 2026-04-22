@@ -263,15 +263,27 @@ async def monitor_loop(bot):
                         now_str = datetime.now(TIMEZONE).strftime("%H:%M")
                         state["alert_count"] += 1
 
-                        mention = "\n" + config["mentions"] if state["alert_count"] >= 2 else ""
+                    if state["last_alert_time"] == 0 or time_since_last_alert >= config["repeat_alert"]:
+                        print("[MONITOR][" + config["name"] + "] Vidpravka alertu!")
 
-                        msg_text = (
-                            "⚠️ Увага❗️ Вже "
-                            + str(silence_min)
-                            + " хвилин немає нових замовлень❗️ Час: "
-                            + now_str
-                            + mention
-                        )
+                        now_str = datetime.now(TIMEZONE).strftime("%H:%M")
+                        state["alert_count"] += 1
+
+                        if state["alert_count"] == 1:
+                            msg_text = (
+                                "⚠️ Увага❗️ Вже "
+                                + str(silence_min)
+                                + " хвилин немає нових замовлень❗️ Час: "
+                                + now_str
+                            )
+                        else:
+                            msg_text = (
+                                "🆘 Увага‼️ Вже "
+                                + str(silence_min)
+                                + " хвилин немає нових замовлень‼️ Час: "
+                                + now_str
+                                + "\n" + config["mentions"]
+                            )
 
                         await bot.send_message(chat_id=chat_id, text=msg_text)
 
