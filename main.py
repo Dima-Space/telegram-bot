@@ -40,6 +40,48 @@ CHATS = {
         "repeat_alert": 60 * 60 * 2,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
     },
+     -1002270006683: {
+        "name": "Чехія",
+        "alert_time": 60 * 60 * 3,
+        "repeat_alert": 60 * 60 * 3,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+     -1002310052085: {
+        "name": "Словаччина",
+        "alert_time": 60 * 60 * 3,
+        "repeat_alert": 60 * 60 * 3,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+     -4936972654: {
+        "name": "Словенія",
+        "alert_time": 60 * 60 * 3,
+        "repeat_alert": 60 * 60 * 3,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    -5179067596: {
+        "name": "Болгарія",
+        "alert_time": 60 * 60 * 5,
+        "repeat_alert": 60 * 60 * 5,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+     -5249103915: {
+        "name": "Португалія",
+        "alert_time": 60 * 60 * 3,
+        "repeat_alert": 60 * 60 * 3,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+     -5191839700: {
+        "name": "Литва",
+        "alert_time": 60 * 60 * 3,
+        "repeat_alert": 60 * 60 * 3,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
+    -4818710901: {
+        "name": "Румунія",
+        "alert_time": 60 * 60 * 3,
+        "repeat_alert": 60 * 60 * 3,
+        "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
+    },
     # додавай скільки треба...
 }
 # ==============================
