@@ -17,13 +17,13 @@ TG_PHONE = os.environ.get("TG_PHONE", "+380682836508")
 # ===== НАЛАШТУВАННЯ ДВА ЧАТИ =====
 CHATS = {
     -1003342150417: {
-        "name": "Група 1",
+        "name": "Україна скло",
         "alert_time": 60 * 60,       # через скільки секунд надсилати алерт
         "repeat_alert": 60 * 60,     # через скільки повторювати алерт
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",
     },
     -1002411854408: {                 # <-- ЗАМІНИ на ID другої групи
-        "name": "Група 2",
+        "name": "NEW Україна",
         "alert_time": 60 * 60,
         "repeat_alert": 60 * 60,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes",  # <-- можна змінити
