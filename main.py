@@ -237,8 +237,15 @@ async def monitor_loop(bot):
 
         try:
             if is_night_time():
-                print("[MONITOR] Nich - propusk")
-                continue
+    print("[MONITOR] Nich - propusk")
+    # Скидаємо лічильник вночі щоб вранці починалось з першого повідомлення
+    for chat_id in CHATS:
+        state = get_state(chat_id)
+        if state["alert_count"] > 0:
+            state["alert_count"] = 0
+            state["last_alert_time"] = 0
+            save_state(chat_id, state)
+    continue
 
             now = time.time()
 
