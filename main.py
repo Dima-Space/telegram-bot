@@ -52,49 +52,49 @@ CHATS = {
         "repeat_alert": 60 * 60 * 3,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-     -4936972654: {
+     -1003732587797: {
         "name": "Словенія",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-    -5179067596: {
+    -1003984714002: {
         "name": "Болгарія",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-     -5249103915: {
+     -1003950124552: {
         "name": "Португалія",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-     -5191839700: {
+     -1003728948443: {
         "name": "Литва",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-    -4818710901: {
+    -1003997115300: {
         "name": "Румунія",
         "alert_time": 60 * 60 * 2,
         "repeat_alert": 60 * 60 * 2,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-    -5023458941: {
+    -1003951819535: {
         "name": "Латвія",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-    -5286153459: {
+    -1003976586657: {
         "name": "Франція",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-    -5176746227: {
+    -1003899973287: {
         "name": "Іспанія",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
@@ -106,25 +106,25 @@ CHATS = {
         "repeat_alert": 60 * 60 * 5,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-    -4834145912: {
+    -1003936313437: {
         "name": "Німеччина",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-    -5245803934: {
+    -1003850112701: {
         "name": "Данія",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-     -5001379307: {
+     -1003916609611: {
         "name": "Італія",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-     -4828212674: {
+     -1003717337259: {
         "name": "Угорщина",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
@@ -142,13 +142,13 @@ CHATS = {
         "repeat_alert": 60 * 60 * 5,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-    -5121283522: {
+    -1003977909245: {
         "name": "Бельгія",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-    -5109854315: {
+    -1003989009477: {
         "name": "Нідерланди",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
@@ -160,7 +160,7 @@ CHATS = {
         "repeat_alert": 60 * 60 * 1,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-    -5105958051: {
+    -1003918590148: {
         "name": "Ірландія",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
