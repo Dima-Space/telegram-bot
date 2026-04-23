@@ -237,15 +237,14 @@ async def monitor_loop(bot):
 
         try:
             if is_night_time():
-    print("[MONITOR] Nich - propusk")
-    # Скидаємо лічильник вночі щоб вранці починалось з першого повідомлення
-    for chat_id in CHATS:
-        state = get_state(chat_id)
-        if state["alert_count"] > 0:
-            state["alert_count"] = 0
-            state["last_alert_time"] = 0
-            save_state(chat_id, state)
-    continue
+                print("[MONITOR] Nich - propusk")
+                for chat_id in CHATS:
+                    state = get_state(chat_id)
+                    if state["alert_count"] > 0:
+                        state["alert_count"] = 0
+                        state["last_alert_time"] = 0
+                        save_state(chat_id, state)
+                continue
 
             now = time.time()
 
@@ -256,19 +255,10 @@ async def monitor_loop(bot):
                 silence_min = int(silence // 60)
                 silence_sec = int(silence % 60)
 
-                print(
-                    "[MONITOR][" + config["name"] + "] Tysha: "
-                    + str(silence_min) + " hv " + str(silence_sec) + " sek"
-                )
+                print("[MONITOR][" + config["name"] + "] Tysha: " + str(silence_min) + " hv " + str(silence_sec) + " sek")
 
                 if silence >= config["alert_time"]:
                     time_since_last_alert = now - state["last_alert_time"]
-
-                    if state["last_alert_time"] == 0 or time_since_last_alert >= config["repeat_alert"]:
-                        print("[MONITOR][" + config["name"] + "] Vidpravka alertu!")
-
-                        now_str = datetime.now(TIMEZONE).strftime("%H:%M")
-                        state["alert_count"] += 1
 
                     if state["last_alert_time"] == 0 or time_since_last_alert >= config["repeat_alert"]:
                         print("[MONITOR][" + config["name"] + "] Vidpravka alertu!")
@@ -298,15 +288,9 @@ async def monitor_loop(bot):
                         save_state(chat_id, state)
 
                     else:
-                        print(
-                            "[MONITOR][" + config["name"] + "] Alert vzhe nadsilavsia "
-                            + str(int(time_since_last_alert // 60)) + " hv tomu"
-                        )
+                        print("[MONITOR][" + config["name"] + "] Alert vzhe nadsilavsia " + str(int(time_since_last_alert // 60)) + " hv tomu")
                 else:
-                    print(
-                        "[MONITOR][" + config["name"] + "] Do alertu shche "
-                        + str(int((config["alert_time"] - silence) // 60)) + " hv"
-                    )
+                    print("[MONITOR][" + config["name"] + "] Do alertu shche " + str(int((config["alert_time"] - silence) // 60)) + " hv")
 
         except Exception as e:
             print("[MONITOR] POMYLKA: " + str(e))
