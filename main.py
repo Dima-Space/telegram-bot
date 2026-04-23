@@ -28,7 +28,7 @@ CHATS = {
         "repeat_alert": 60 * 60,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-    -1001234567890: {
+    -1002411854408: {
         "name": "NEW Україна",
         "alert_time": 60 * 60,
         "repeat_alert": 60 * 60,
