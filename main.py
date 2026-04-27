@@ -21,15 +21,15 @@ NIGHT_END = 8
 DB_FILE = "/tmp/bot_state.db"
 
 # ===== ГРУПА ДЛЯ АЛЕРТІВ =====
-ALERT_CHAT_ID = -1001111111111  # ← заміни на ID групи куди надсилати всі алерти
+ALERT_CHAT_ID = -5193403403  # ← заміни на ID групи куди надсилати всі алерти
 # ==============================
 
 # ===== НАЛАШТУВАННЯ ГРУП =====
 CHATS = {
     -1003342150417: {
         "name": "Україна скло",
-        "alert_time": 60 * 60,
-        "repeat_alert": 60 * 60,
+        "alert_time": 60 * 2,
+        "repeat_alert": 60 * 2,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -1002411854408: {
