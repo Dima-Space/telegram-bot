@@ -20,6 +20,10 @@ NIGHT_END = 8
 
 DB_FILE = "/tmp/bot_state.db"
 
+# ===== ГРУПА ДЛЯ АЛЕРТІВ =====
+ALERT_CHAT_ID = -1001111111111  # ← заміни на ID групи куди надсилати всі алерти
+# ==============================
+
 # ===== НАЛАШТУВАННЯ ГРУП =====
 CHATS = {
     -1003342150417: {
@@ -40,19 +44,19 @@ CHATS = {
         "repeat_alert": 60 * 60 * 2,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-     -1002270006683: {
+    -1002270006683: {
         "name": "Чехія",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-     -1002310052085: {
+    -1002310052085: {
         "name": "Словаччина",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-     -1003732587797: {
+    -1003732587797: {
         "name": "Словенія",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
@@ -64,13 +68,13 @@ CHATS = {
         "repeat_alert": 60 * 60 * 5,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-     -1003950124552: {
+    -1003950124552: {
         "name": "Португалія",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-     -1003728948443: {
+    -1003728948443: {
         "name": "Литва",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
@@ -118,19 +122,19 @@ CHATS = {
         "repeat_alert": 60 * 60 * 5,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-     -1003916609611: {
+    -1003916609611: {
         "name": "Італія",
         "alert_time": 60 * 60 * 3,
         "repeat_alert": 60 * 60 * 3,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-     -1003717337259: {
+    -1003717337259: {
         "name": "Угорщина",
         "alert_time": 60 * 60 * 5,
         "repeat_alert": 60 * 60 * 5,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-     -1002342335330: {
+    -1002342335330: {
         "name": "Пікасо",
         "alert_time": 60 * 60 * 4,
         "repeat_alert": 60 * 60 * 4,
@@ -166,7 +170,6 @@ CHATS = {
         "repeat_alert": 60 * 60 * 5,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
-    # додавай скільки треба...
 }
 # ==============================
 
@@ -268,21 +271,21 @@ async def monitor_loop(bot):
 
                         if state["alert_count"] == 1:
                             msg_text = (
-                                "⚠️ Увага❗️ Вже "
+                                "⚠️ Увага❗️ [" + config["name"] + "] Вже "
                                 + str(silence_min)
                                 + " хвилин немає нових замовлень❗️ Час: "
                                 + now_str
                             )
                         else:
                             msg_text = (
-                                "🆘 Увага‼️ Вже "
+                                "🆘 Увага‼️ [" + config["name"] + "] Вже "
                                 + str(silence_min)
                                 + " хвилин немає нових замовлень‼️ Час: "
                                 + now_str
                                 + "\n" + config["mentions"]
                             )
 
-                        await bot.send_message(chat_id=chat_id, text=msg_text)
+                        await bot.send_message(chat_id=ALERT_CHAT_ID, text=msg_text)
 
                         state["last_alert_time"] = now
                         save_state(chat_id, state)
