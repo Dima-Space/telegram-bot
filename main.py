@@ -28,8 +28,8 @@ ALERT_CHAT_ID = -5193403403  # ← заміни на ID групи куди на
 CHATS = {
     -1003342150417: {
         "name": "Україна скло",
-        "alert_time": 60 * 2,
-        "repeat_alert": 60 * 2,
+        "alert_time": 60 * 60,
+        "repeat_alert": 60 * 60,
         "mentions": "@stasnislaavv @rumyantsev58 @cheeenazes @pavloplotka",
     },
     -1002411854408: {
