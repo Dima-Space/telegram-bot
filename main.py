@@ -298,41 +298,6 @@ async def monitor_loop(bot):
         except Exception as e:
             print("[MONITOR] POMYLKA: " + str(e))
 
-async def find_utm_email(client):
-    SOURCE_CHAT_ID = -1003342150417  # ← ID чату звідки шукати
-    
-    print("[UTM] Починаємо пошук повідомлень з UTM medium: email ...")
-    found = []
-
-    async for message in client.iter_messages(SOURCE_CHAT_ID, limit=None):
-        if message.text and "UTM medium: email" in message.text:
-            found.append(message)
-
-    print("[UTM] Знайдено: " + str(len(found)) + " повідомлень")
-
-    if not found:
-        await client.send_message(ALERT_CHAT_ID, "❌ Повідомлень з UTM medium: email не знайдено.")
-        return
-
-    await client.send_message(
-        ALERT_CHAT_ID,
-        "📋 Знайдено " + str(len(found)) + " замовлень з UTM medium: email:"
-    )
-
-    for msg in reversed(found):
-        try:
-            await client.forward_messages(ALERT_CHAT_ID, msg, SOURCE_CHAT_ID)
-            await asyncio.sleep(0.5)
-        except Exception as e:
-            print("[UTM ERROR] " + str(e))
-            try:
-                await client.send_message(ALERT_CHAT_ID, msg.text)
-                await asyncio.sleep(0.5)
-            except Exception as e2:
-                print("[UTM ERROR2] " + str(e2))
-
-    print("[UTM] Готово!")
-
 async def main():
     init_db()
 
@@ -361,7 +326,6 @@ async def main():
         save_state(chat_id, state)
 
     await client.start(phone=TG_PHONE)
-    asyncio.create_task(find_utm_email(client))
 
     for chat_id, config in CHATS.items():
         try:
